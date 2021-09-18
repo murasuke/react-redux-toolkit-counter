@@ -4,7 +4,7 @@
 
 下記サンプルソースを元に一部修正しました
 
-https://github.com/oukayuka/Riakuto-StartingReact-ja3.1/tree/master/11-redux/02-redux
+https://github.com/oukayuka/Riakuto-StartingReact-ja3.1/tree/master/11-redux/04-toolkit
 
 
 * 修正点
@@ -16,72 +16,29 @@ https://github.com/oukayuka/Riakuto-StartingReact-ja3.1/tree/master/11-redux/02-
   https://codesandbox.io/s/bold-resonance-1mqrf
 
 
-actions.ts
+src/features/counter.ts
+
+* redux toolkitを利用することで、驚くほどreducerが書きやすくなりました
 
 ```typescript
-export const CounterActionType = {
-  ADD: 'ADD',
-  DECREMENT: 'DECREMENT',
-  INCREMENT: 'INCREMENT',
-} as const;
-
-type ValueOf<T> = T[keyof T];
-
-export type CounterAction = {
-  type: ValueOf<typeof CounterActionType>;
-  amount?: number;
-};
-
-export const add = (amount: number): CounterAction => ({
-  type: CounterActionType.ADD,
-  amount,
-});
-
-export const decrement = (): CounterAction => ({
-  type: CounterActionType.DECREMENT,
-});
-
-export const increment = (): CounterAction => ({
-  type: CounterActionType.INCREMENT,
-});
-
-```
-
-reducer.ts
-
-```typescript
-import { Reducer } from 'redux'; // eslint-disable-line import/no-extraneous-dependencies
-import { CounterAction, CounterActionType as Type } from './actions';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type CounterState = { count: number };
-export const initialState: CounterState = { count: 0 };
+const initialState: CounterState = { count: 0 };
 
-export const counterReducer: Reducer<CounterState, CounterAction> = (
-  state: CounterState = initialState,
-  action: CounterAction,
-): CounterState => {
-  switch (action.type) {
-    case Type.ADD:
-      return {
-        ...state,
-        count: state.count + (action.amount || 0),
-      };
-    case Type.DECREMENT:
-      return {
-        ...state,
-        count: state.count - 1,
-      };
-    case Type.INCREMENT:
-      return {
-        ...state,
-        count: state.count + 1,
-      };
-    default: {
-      const _: never = action.type;
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    added: (state, action: PayloadAction<number>) => ({
+      ...state,
+      count: state.count + action.payload,
+    }),
+    decremented: (state) => ({ ...state, count: state.count - 1 }),
+    incremented: (state) => ({ ...state, count: state.count + 1 }),
+  },
+});
 
-      return state;
-    }
-  }
-};
 
 ```
+
