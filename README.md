@@ -11,14 +11,11 @@ https://github.com/oukayuka/Riakuto-StartingReact-ja3.1/tree/master/11-redux/04-
   * containerコンポーネントとpresentationalコンポーネントを一つにまとめる
 
 ---
-* [codesandbox](https://codesandbox.io/)で作ったソースをgithubにpushして微調整
-
-  https://codesandbox.io/s/bold-resonance-1mqrf
-
-
 src/features/counter.ts
 
-* redux toolkitを利用することで、驚くほどreducerが書きやすくなりました
+* redux toolkitを利用することで、驚くほどreducerが書きやすくなります。
+
+createSlice()を利用すれば、Actionの定義と、reducerの値変更を一緒に行うことができます。
 
 ```typescript
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -38,7 +35,7 @@ export const counterSlice = createSlice({
     incremented: (state) => ({ ...state, count: state.count + 1 }),
   },
 });
-
-
 ```
+
+
 
